@@ -1,0 +1,99 @@
+# Este es el archivo de configuración de Git por usuario.
+# Ubicado en ~/.gitconfig
+
+[user]
+    # Información esencial para identificar tus commits
+    name = Agustín Sotelo
+    email = agustinemiliano22@gmail.com
+
+[core]
+    # Editor de texto a usar para mensajes de commit, rebase interactivo, etc.
+    editor = code --wait
+    # Habilita colores en la salida de Git para mejor legibilidad
+    ui = auto
+    # Paginador para la salida de comandos como 'git log' o 'git diff'.
+    # Si tienes 'delta' instalado y configurado, esto lo usará.
+    # Si no, usará 'less' por defecto.
+    pager = delta # Asegúrate de tener delta instalado y configurado si usas esto
+
+[init]
+    # Nombre de la rama por defecto para nuevos repositorios (ej. 'main' o 'master')
+    defaultBranch = main
+
+[pull]
+    # Configura el comportamiento de 'git pull'.
+    # 'true' hará un rebase en lugar de un merge, manteniendo un historial más limpio.
+    # 'false' (o si se omite) hará un merge.
+    rebase = true
+    # Si usas 'rebase = true', también es útil:
+    # ff = only # Solo permite fast-forward merges durante el rebase, o falla.
+
+[push]
+    # Cuando haces 'git push' sin especificar una rama remota,
+    # 'simple' asegura que solo se haga push a la rama remota con el mismo nombre
+    # que tu rama local y que esté configurada para seguir (tracking).
+    # Es una buena práctica de seguridad.
+    default = simple
+    # Al hacer push de una nueva rama, la configura automáticamente para hacer seguimiento
+    # de la rama remota correspondiente.
+    # autoSetupRemote = true # (En versiones más nuevas de Git, esto es a menudo el comportamiento por defecto o parte de 'simple')
+
+[fetch]
+    # Al hacer 'git fetch', elimina automáticamente las referencias a ramas remotas
+    # que ya no existen en el servidor remoto.
+    prune = true
+
+[credential]
+    # Ayudante para gestionar credenciales (contraseñas, tokens).
+    # 'osxkeychain' es específico para macOS y guarda las credenciales de forma segura.
+    helper = osxkeychain
+
+[alias]
+    # Alias para comandos de Git que usas frecuentemente.
+    # Aunque tengas alias en Zsh, estos funcionan en cualquier shell.
+    st = status -sb # Status corto y con información de rama
+    co = checkout
+    cb = checkout -b # Crear nueva rama y moverse a ella
+    br = branch
+    ci = commit
+    cm = commit -m
+    amend = commit --amend --no-edit # Añadir al último commit sin cambiar el mensaje
+    aa = add --all
+    ap = add -p # Staging interactivo
+    
+    # Logs más informativos
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    llg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    last = log -1 HEAD --stat # Muestra el último commit con estadísticas de los archivos cambiados
+    
+    # Deshacer cosas
+    undo = reset --soft HEAD^ # Deshace el último commit, manteniendo los cambios en el staging area
+    unstage = reset HEAD -- # Saca los archivos del staging area
+    
+    # Remotos
+    rup = remote update --prune # Actualiza todos los remotos y elimina ramas obsoletas
+
+# Configuración para 'delta' (si lo usas como tu 'core.pager')
+# Estas son algunas opciones comunes. Puedes personalizarlas más.
+[delta]
+    # Habilita la navegación dentro del diff con 'n' y 'N' (si usas 'less' como paginador subyacente)
+    navigate = true
+    # Si usas un tema de terminal oscuro, 'false' es usualmente mejor.
+    # Si usas un tema claro, prueba 'true'.
+    light = false
+    # Muestra los diffs lado a lado
+    side-by-side = true
+    # Puedes experimentar con diferentes temas de resaltado de sintaxis
+    # syntax-theme = Monokai Extended # Ejemplo, si tienes temas de bat instalados
+    # Opciones para mejorar la apariencia
+    line-numbers = true # Muestra números de línea
+    # features = my-custom-theme # Puedes definir tus propios temas
+
+# Configuración para GPG signing (opcional, si firmas tus commits)
+# [commit]
+#     gpgsign = true # Firma todos los commits por defecto
+# [user]
+#     signingkey = TU_ID_DE_CLAVE_GPG # Reemplaza con tu ID de clave GPG
+
+# Ayuda: Para ver todas tus configuraciones: git config --list
+# Para editar este archivo directamente: git config --global --edit
